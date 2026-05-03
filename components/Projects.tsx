@@ -137,7 +137,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <ArrowUpRight className="h-4 w-4" />
         </a>
         <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">
-          0{profile.projects.indexOf(project) + 1}
+          0{index + 1}
         </span>
       </div>
     </motion.article>
