@@ -57,7 +57,7 @@ export const profile = {
   links: {
     linkedin: "https://www.linkedin.com/in/ameer-sohail-shaik-9a6309202/",
     github: "https://github.com/Sohail-5678",
-    portfolio: "https://sohail-5678.github.io",
+    portfolio: "https://ameer-shaik.vercel.app",
     resume: "/resume.pdf",
   },
   status: "Open to Summer 2026 Data Science / ML / AI internship opportunities",
