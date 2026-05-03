@@ -134,8 +134,72 @@ export const profile = {
         "Sentence-Transformers",
         "BM25",
       ],
+      liveUrl: "https://ragnarok-ai.streamlit.app/",
       emoji: "🧿",
       accent: "violet",
+    },
+    {
+      slug: "automl-ify",
+      name: "AutoML-ify",
+      tagline: "No-code AutoML for non-technical users",
+      description:
+        "End-to-end AutoML web app letting non-technical users train, tune, and evaluate ML models without writing a line of code — supporting 5+ algorithms and datasets up to 100K rows.",
+      bullets: [
+        "Built an end-to-end AutoML web app supporting 5+ algorithms with automated hyperparameter tuning via GridSearchCV, enabling non-technical users to build ML models without coding.",
+        "Engineered a scalable data pipeline supporting multiple file formats with automated validation and preprocessing on datasets up to 100K rows with real-time progress tracking.",
+        "Implemented a comprehensive model-evaluation dashboard with rich visualizations, cutting model-development time for business analysts by ~80%.",
+      ],
+      stats: [
+        { value: "5+", label: "Algorithms" },
+        { value: "100K", label: "Max rows" },
+        { value: "80%", label: "Time saved" },
+      ],
+      stack: ["Python", "Streamlit", "Scikit-learn", "GridSearchCV"],
+      liveUrl: "https://ameer-sohail-automl-ify.streamlit.app/",
+      emoji: "🤖",
+      accent: "lime",
+    },
+    {
+      slug: "sql-assistant",
+      name: "Dynamic SQL Assistant",
+      tagline: "Text-to-SQL with 90%+ semantic accuracy",
+      description:
+        "Natural-language-to-SQL engine with dynamic schema injection, prompt orchestration, and SQL validation — guaranteeing syntactic correctness across 50+ tested query patterns.",
+      bullets: [
+        "Built a Text-to-SQL engine enabling natural-language database queries with 90%+ semantic accuracy across 50+ tested patterns.",
+        "Architected prompt orchestration with dynamic schema injection and SQL validation to guarantee syntactic correctness (100% valid SQL output).",
+        "Deployed behind a Streamlit UI with sub-2-second processing for a 100K-row demo dataset.",
+      ],
+      stats: [
+        { value: "90%+", label: "Accuracy" },
+        { value: "100%", label: "Valid SQL" },
+        { value: "<2s", label: "Latency" },
+      ],
+      stack: ["Python", "LangChain", "Groq API", "Llama 3.3", "SQLite", "Streamlit"],
+      liveUrl: "https://ameer-sohail-dynamic-sql-assistant.streamlit.app/",
+      emoji: "�",
+      accent: "blue",
+    },
+    {
+      slug: "diabetes",
+      name: "Diabetes Prediction",
+      tagline: "Interpretable risk model on 150K+ CDC BRFSS records",
+      description:
+        "Binary classification system predicting diabetes risk from 21 health indicators using ensemble methods, with SHAP-based interpretability for clinical decision-making transparency.",
+      bullets: [
+        "Developed a binary classifier on 150K+ patient records from the CDC BRFSS dataset using XGBoost, Random Forest, and Gradient Boosting — achieving 95.9% recall and 0.9935 ROC-AUC.",
+        "Engineered 18 predictive features via domain-driven feature engineering: interaction terms (BMI×Age), polynomial features, and composite health scores — improving recall by 12% and minimizing false negatives.",
+        "Implemented SHAP for model interpretability, identifying GenHlth, BMI, and Age as top risk factors with quantified feature-importance scores.",
+      ],
+      stats: [
+        { value: "95.9%", label: "Recall" },
+        { value: "0.9935", label: "ROC-AUC" },
+        { value: "150K+", label: "Records" },
+      ],
+      stack: ["Python", "XGBoost", "Random Forest", "Gradient Boosting", "SHAP", "Pandas"],
+      liveUrl: "https://sohail-umd.github.io/",
+      emoji: "🩺",
+      accent: "pink",
     },
     {
       slug: "streamtest",
@@ -164,46 +228,6 @@ export const profile = {
       accent: "cyan",
     },
     {
-      slug: "diabetes",
-      name: "Diabetes Prediction",
-      tagline: "Interpretable risk model on 150K+ CDC BRFSS records",
-      description:
-        "Binary classification system predicting diabetes risk from 21 health indicators using ensemble methods, with SHAP-based interpretability for clinical decision-making transparency.",
-      bullets: [
-        "Developed a binary classifier on 150K+ patient records from the CDC BRFSS dataset using XGBoost, Random Forest, and Gradient Boosting — achieving 95.9% recall and 0.9935 ROC-AUC.",
-        "Engineered 18 predictive features via domain-driven feature engineering: interaction terms (BMI×Age), polynomial features, and composite health scores — improving recall by 12% and minimizing false negatives.",
-        "Implemented SHAP for model interpretability, identifying GenHlth, BMI, and Age as top risk factors with quantified feature-importance scores.",
-      ],
-      stats: [
-        { value: "95.9%", label: "Recall" },
-        { value: "0.9935", label: "ROC-AUC" },
-        { value: "150K+", label: "Records" },
-      ],
-      stack: ["Python", "XGBoost", "Random Forest", "Gradient Boosting", "SHAP", "Pandas"],
-      emoji: "🩺",
-      accent: "pink",
-    },
-    {
-      slug: "automl-ify",
-      name: "AutoML-ify",
-      tagline: "No-code AutoML for non-technical users",
-      description:
-        "End-to-end AutoML web app letting non-technical users train, tune, and evaluate ML models without writing a line of code — supporting 5+ algorithms and datasets up to 100K rows.",
-      bullets: [
-        "Built an end-to-end AutoML web app supporting 5+ algorithms with automated hyperparameter tuning via GridSearchCV, enabling non-technical users to build ML models without coding.",
-        "Engineered a scalable data pipeline supporting multiple file formats with automated validation and preprocessing on datasets up to 100K rows with real-time progress tracking.",
-        "Implemented a comprehensive model-evaluation dashboard with rich visualizations, cutting model-development time for business analysts by ~80%.",
-      ],
-      stats: [
-        { value: "5+", label: "Algorithms" },
-        { value: "100K", label: "Max rows" },
-        { value: "80%", label: "Time saved" },
-      ],
-      stack: ["Python", "Streamlit", "Scikit-learn", "GridSearchCV"],
-      emoji: "🤖",
-      accent: "lime",
-    },
-    {
       slug: "sparkflow",
       name: "SparkFlow",
       tagline: "Scalable ETL & feature-store pipeline",
@@ -222,26 +246,6 @@ export const profile = {
       stack: ["PySpark", "SQL", "Apache Airflow", "ETL", "Feature Store"],
       emoji: "⚡",
       accent: "amber",
-    },
-    {
-      slug: "sql-assistant",
-      name: "Dynamic SQL Assistant",
-      tagline: "Text-to-SQL with 90%+ semantic accuracy",
-      description:
-        "Natural-language-to-SQL engine with dynamic schema injection, prompt orchestration, and SQL validation — guaranteeing syntactic correctness across 50+ tested query patterns.",
-      bullets: [
-        "Built a Text-to-SQL engine enabling natural-language database queries with 90%+ semantic accuracy across 50+ tested patterns.",
-        "Architected prompt orchestration with dynamic schema injection and SQL validation to guarantee syntactic correctness (100% valid SQL output).",
-        "Deployed behind a Streamlit UI with sub-2-second processing for a 100K-row demo dataset.",
-      ],
-      stats: [
-        { value: "90%+", label: "Accuracy" },
-        { value: "100%", label: "Valid SQL" },
-        { value: "<2s", label: "Latency" },
-      ],
-      stack: ["Python", "LangChain", "Groq API", "Llama 3.3", "SQLite", "Streamlit"],
-      emoji: "💬",
-      accent: "blue",
     },
   ] satisfies Project[],
 
