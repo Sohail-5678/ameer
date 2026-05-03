@@ -55,7 +55,7 @@ export const profile = {
   email: "skameersohail148@gmail.com",
   phone: "+1 (813) 817-1935",
   links: {
-    linkedin: "https://www.linkedin.com/in/ameer-sohail-shaik-9a6309202/",
+    linkedin: "https://www.linkedin.com/in/ameer-shaik-9a6309202/",
     github: "https://github.com/Sohail-5678",
     portfolio: "https://ameer-shaik.vercel.app",
     resume: "/resume.pdf",

@@ -10,9 +10,9 @@ type ContactProps = {
 
 const links = [
   { Icon: Mail, label: "Email", href: `mailto:${profile.email}`, value: profile.email },
-  { Icon: Linkedin, label: "LinkedIn", href: profile.links.linkedin, value: "in/ameer-sohail-shaik" },
+  { Icon: Linkedin, label: "LinkedIn", href: profile.links.linkedin, value: "Ameer Sohail Shaik" },
   { Icon: Github, label: "GitHub", href: profile.links.github, value: "@Sohail-5678" },
-  { Icon: Globe, label: "Portfolio", href: profile.links.portfolio, value: "sohail-5678.github.io" },
+  { Icon: Globe, label: "Portfolio", href: profile.links.portfolio, value: "ameer-shaik.vercel.app" },
   { Icon: Phone, label: "Phone", href: `tel:+18138171935`, value: profile.phone },
 ];
 
