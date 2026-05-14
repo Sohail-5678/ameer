@@ -662,7 +662,12 @@ function renderInline(s: string) {
         continue;
       }
     }
-    let j = i;
+    // Fallback: consume the current char as plain text, then scan ahead for
+    // the next special delimiter. Starting `j` at `i + 1` GUARANTEES forward
+    // progress — without it, an unclosed `*` or backtick (very common during
+    // streaming, e.g. mid-token of "**bold**") puts us in an infinite loop
+    // that hangs the tab and surfaces as a generic "Application error".
+    let j = i + 1;
     while (j < s.length && s[j] !== "`" && !s.startsWith("**", j) && s[j] !== "*") {
       j++;
     }
