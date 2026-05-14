@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 // =============================================================================
 // AIAssistant — the hiring concierge.
 // Opens as a glass-morphism panel anchored bottom-right on desktop, full-sheet
-// on mobile. Streams tokens from /api/chat (which talks to NVIDIA Build).
+// on mobile. Streams tokens from /api/chat (which talks to Groq).
 // =============================================================================
 
 type ChatMessage = {
@@ -446,7 +446,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                 )}
               </div>
               <div className="mt-2 flex items-center justify-between px-1 text-[10px] uppercase tracking-widest text-white/35">
-                <span>Powered by NVIDIA Build · Kimi K2</span>
+                <span>Powered by Groq · Llama 3.3 70B</span>
                 <span className="hidden sm:inline">
                   ⏎ send · shift ⏎ newline
                 </span>

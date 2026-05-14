@@ -2,8 +2,8 @@
 
 A modern, animated personal portfolio + an **AI Concierge** that recruiters
 can use to evaluate fit against any JD they paste in. The concierge is
-hard-grounded in your profile (no hallucinations) and powered by NVIDIA
-Build's free LLM endpoint.
+hard-grounded in your profile (no hallucinations) and powered by Groq's
+free, OpenAI-compatible LLM endpoint.
 
 ## Stack
 
@@ -13,7 +13,7 @@ Build's free LLM endpoint.
 | Styling     | Tailwind CSS, custom CSS variables, glassmorphism      |
 | Animation   | Framer Motion                                          |
 | Icons       | lucide-react                                           |
-| AI backend  | `/api/chat` route → NVIDIA Build (`moonshotai/kimi-k2-instruct`) via the `openai` SDK with streaming |
+| AI backend  | `/api/chat` route → Groq (`llama-3.3-70b-versatile`) via the `openai` SDK with streaming |
 | Hosting     | Vercel (recommended) — free tier handles everything   |
 
 ## Quick start
@@ -22,7 +22,7 @@ Build's free LLM endpoint.
 # 1. Install deps
 npm install
 
-# 2. Add your NVIDIA API key
+# 2. Add your Groq API key
 cp .env.local.example .env.local
 # then open .env.local and paste your key
 
@@ -61,8 +61,8 @@ prefer.
    of your entire profile.
 2. `app/api/chat/route.ts` injects that string into the system prompt with
    strict rules: *"Only use facts from the PROFILE below. Never invent."*
-3. The model (Kimi K2) is called at `temperature: 0.4` to keep answers
-   tight and on-script.
+3. The model (Llama 3.3 70B on Groq) is called at `temperature: 0.4` to keep
+   answers tight and on-script.
 4. If a recruiter asks about something you don't have (e.g. "did Ameer ever
    use Kafka?"), the model is instructed to say so honestly and point them
    to your email.
@@ -81,8 +81,8 @@ personal projects.
 1. Push this folder to GitHub (a new repo, e.g. `ameer-portfolio`).
 2. Go to <https://vercel.com/new>, "Import" the repo.
 3. In **Environment Variables**, add:
-   - `NVIDIA_API_KEY` = your key from <https://build.nvidia.com>
-   - *(optional)* `NVIDIA_MODEL` = `moonshotai/kimi-k2-instruct`
+   - `GROQ_API_KEY` = your key from <https://console.groq.com/keys>
+   - *(optional)* `GROQ_MODEL` = `llama-3.3-70b-versatile`
 4. Click **Deploy**. You'll get a URL like `ameer-portfolio.vercel.app`.
 5. *(optional)* Add a custom domain in Vercel → Project → Settings → Domains.
 
@@ -114,7 +114,7 @@ Vercel → Settings → Environment Variables and redeploy.
 
 ```
 app/
-  api/chat/route.ts       NVIDIA-backed streaming RAG endpoint
+  api/chat/route.ts       Groq-backed streaming RAG endpoint
   globals.css             Tailwind + custom utilities
   layout.tsx              Root layout, fonts, metadata
   page.tsx                Wires all sections together
@@ -141,9 +141,9 @@ public/
 ## Tweaks you'll probably want
 
 - **Live demo links** → edit each project's `liveUrl` in `lib/profile.ts`.
-- **Replace the model** → set `NVIDIA_MODEL=...` (any model on
-  build.nvidia.com works — e.g. `meta/llama-3.3-70b-instruct`,
-  `nvidia/llama-3.3-nemotron-super-49b-v1`).
+- **Replace the model** → set `GROQ_MODEL=...` (any model on Groq's catalog
+  works — e.g. `openai/gpt-oss-120b`, `qwen/qwen3-32b`,
+  `meta-llama/llama-4-scout-17b-16e-instruct`, `llama-3.1-8b-instant`).
 - **Tighten the system prompt** → it lives in `app/api/chat/route.ts`
   inside the `SYSTEM_PROMPT` template.
 - **Theme colors** → CSS variables in `app/globals.css` and

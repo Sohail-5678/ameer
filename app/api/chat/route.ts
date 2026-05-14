@@ -1,11 +1,11 @@
 // =============================================================================
-// /api/chat — RAG endpoint backed by NVIDIA Build (build.nvidia.com).
+// /api/chat — RAG endpoint backed by Groq (api.groq.com).
 //
 // Design goals:
 //   1. ZERO HALLUCINATION. The model is given Ameer's full resume as ground
 //      truth in the system prompt and is hard-instructed to refuse / say "I
 //      don't have that information" when asked something outside the corpus.
-//   2. The NVIDIA API key NEVER reaches the browser — it lives in the Vercel
+//   2. The Groq API key NEVER reaches the browser — it lives in the Vercel
 //      environment and is read only on the server.
 //   3. Streaming SSE response so the UI can render tokens as they arrive.
 //   4. Always-on: the route is stateless and edge-ready (kept on Node runtime
@@ -19,8 +19,14 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1";
-const DEFAULT_MODEL = "moonshotai/kimi-k2-instruct";
+// Groq's chat-completions endpoint is OpenAI-compatible, so the openai SDK
+// works as-is once we point it at this base URL.
+const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
+// `llama-3.3-70b-versatile` is Groq's flagship instruction-tuned 70B Llama —
+// strong at following strict system-prompt rules, which we need for grounding.
+// Override at runtime via the GROQ_MODEL env var if you want a different model
+// (e.g. `openai/gpt-oss-120b`, `qwen/qwen3-32b`, `llama-3.1-8b-instant`).
+const DEFAULT_MODEL = "llama-3.3-70b-versatile";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -110,16 +116,16 @@ export async function POST(req: Request) {
       content: m.content.slice(0, 8000),
     }));
 
-  const apiKey = process.env.NVIDIA_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return jsonError(
       500,
-      "Server misconfiguration: NVIDIA_API_KEY is not set. Add it to your environment (e.g. Vercel Project Settings → Environment Variables) and redeploy.",
+      "Server misconfiguration: GROQ_API_KEY is not set. Add it to your environment (e.g. Vercel Project Settings → Environment Variables) and redeploy.",
     );
   }
 
-  const model = process.env.NVIDIA_MODEL || DEFAULT_MODEL;
-  const client = new OpenAI({ apiKey, baseURL: NVIDIA_BASE_URL });
+  const model = process.env.GROQ_MODEL || DEFAULT_MODEL;
+  const client = new OpenAI({ apiKey, baseURL: GROQ_BASE_URL });
 
   const systemPrompt = SYSTEM_PROMPT(buildKnowledgeBase());
 
@@ -176,8 +182,8 @@ export async function GET() {
       ok: true,
       route: "/api/chat",
       method: "POST",
-      keyConfigured: Boolean(process.env.NVIDIA_API_KEY),
-      model: process.env.NVIDIA_MODEL || DEFAULT_MODEL,
+      keyConfigured: Boolean(process.env.GROQ_API_KEY),
+      model: process.env.GROQ_MODEL || DEFAULT_MODEL,
     }),
     { headers: { "Content-Type": "application/json" } },
   );
