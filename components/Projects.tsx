@@ -5,33 +5,25 @@ import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { profile, type Project } from "@/lib/profile";
 import { SectionHeader } from "./SectionHeader";
 
-const accentMap: Record<Project["accent"], string> = {
-  violet: "from-[#7c5cff] to-[#a78bff]",
-  cyan: "from-[#22d3ee] to-[#7dd3fc]",
-  pink: "from-[#f472b6] to-[#fb7185]",
-  lime: "from-[#84e1bc] to-[#a7f3d0]",
-  amber: "from-[#fbbf24] to-[#fb923c]",
-  blue: "from-[#5b8cff] to-[#22d3ee]",
-};
-
 export function Projects() {
   return (
     <section id="projects" className="relative py-28">
       <div className="container-x">
         <SectionHeader
-          eyebrow="Selected Work"
+          index="03"
+          eyebrow="Featured work"
           title={
             <>
-              Six projects I'm{" "}
-              <span className="text-gradient">proud to ship</span>.
+              Six things I'm{" "}
+              <em className="italic text-[color:var(--accent)]">proud of</em>.
             </>
           }
-          description="From multimodal RAG to causal inference at MovieLens scale. Live-demo links per project — paste yours into the data file and they update instantly."
+          description="A field guide to the projects that taught me the most. Each entry has a live demo where the link applies."
         />
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-20 space-y-24">
           {profile.projects.map((p, idx) => (
-            <ProjectCard key={p.slug} project={p} index={idx} />
+            <ProjectEntry key={p.slug} project={p} index={idx} />
           ))}
         </div>
       </div>
@@ -39,106 +31,123 @@ export function Projects() {
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const gradient = accentMap[project.accent];
+function ProjectEntry({ project, index }: { project: Project; index: number }) {
+  const flip = index % 2 === 1;
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay: (index % 3) * 0.06 }}
-      whileHover={{ y: -6 }}
-      className="card group relative flex h-full flex-col overflow-hidden rounded-2xl"
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6 }}
+      className="grid grid-cols-12 gap-x-6 gap-y-8 border-t border-[color:var(--fg)] pt-8"
     >
-      {/* gradient glow */}
-      <div
-        className={`pointer-events-none absolute -inset-px -z-10 rounded-2xl bg-gradient-to-br ${gradient} opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-25`}
-      />
-      {/* top accent bar */}
-      <div
-        className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r ${gradient} opacity-50 transition-opacity duration-500 group-hover:opacity-100`}
-      />
-
-      <div className="flex items-start justify-between gap-3">
-        <div
-          className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-lg shadow-lg`}
-        >
-          <span aria-hidden>{project.emoji}</span>
+      {/* Left side: number + name + description */}
+      <div className={`col-span-12 lg:col-span-7 ${flip ? "lg:order-2 lg:col-start-6" : ""}`}>
+        <div className="flex items-baseline justify-between gap-6">
+          <div className="flex items-baseline gap-4">
+            <span className="font-mono text-xs tabular-nums tracking-[0.28em] text-[color:var(--accent)]">
+              № {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]">
+              {project.tagline}
+            </span>
+          </div>
+          <span className="text-2xl" aria-hidden>
+            {project.emoji}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
+
+        <h3
+          className="mt-4 font-display font-medium leading-[0.95] tracking-tight text-[color:var(--fg)]"
+          style={{
+            fontSize: "clamp(2.2rem, 5vw, 3.6rem)",
+            fontVariationSettings: '"opsz" 144',
+          }}
+        >
+          {project.name}
+        </h3>
+
+        <p className="mt-5 max-w-xl text-[17px] leading-[1.6] text-[color:var(--fg-dim)]">
+          {project.description}
+        </p>
+
+        <ul className="mt-6 space-y-2">
+          {project.bullets.slice(0, 2).map((b, i) => (
+            <li
+              key={i}
+              className="flex gap-3 text-[15px] leading-relaxed text-[color:var(--fg-dim)]"
+            >
+              <span className="mt-2 h-px w-3 shrink-0 bg-[color:var(--accent)]" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-6 flex flex-wrap gap-1.5">
+          {project.stack.map((s) => (
+            <span key={s} className="chip">
+              {s}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-6 flex items-center gap-4">
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-1.5 border-b border-[color:var(--fg)] pb-0.5 text-sm font-medium text-[color:var(--fg)] transition-colors hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+            >
+              View live demo
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          ) : (
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--fg-muted)]">
+              Demo · coming soon
+            </span>
+          )}
           {project.repoUrl && (
             <a
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub repo"
-              className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/60 transition hover:border-white/30 hover:text-white"
+              aria-label="GitHub repository"
+              className="inline-flex items-center gap-1.5 text-sm text-[color:var(--fg-dim)] transition-colors hover:text-[color:var(--fg)]"
             >
               <Github className="h-4 w-4" />
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Live demo"
-              className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/60 transition hover:border-white/30 hover:text-white"
-            >
-              <ExternalLink className="h-4 w-4" />
+              Source
             </a>
           )}
         </div>
       </div>
 
-      <h3 className="mt-5 text-xl font-semibold leading-tight text-white">
-        {project.name}
-      </h3>
-      <p className="mt-1 text-sm text-accent-glow">{project.tagline}</p>
-      <p className="mt-3 text-sm leading-relaxed text-white/65">
-        {project.description}
-      </p>
-
-      <div className="mt-5 grid grid-cols-3 gap-3 border-y border-white/5 py-4">
-        {project.stats.map((s) => (
-          <div key={s.label}>
-            <div
-              className={`bg-gradient-to-br ${gradient} bg-clip-text font-mono text-base font-semibold text-transparent`}
-            >
-              {s.value}
+      {/* Right side: stats column with editorial type */}
+      <div className={`col-span-12 lg:col-span-5 ${flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""}`}>
+        <div className="grid grid-cols-1 divide-y divide-[color:var(--rule)] border-y border-[color:var(--rule-strong)]">
+          {project.stats.map((s, i) => (
+            <div key={s.label} className="flex items-baseline justify-between py-5">
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-[10px] tabular-nums text-[color:var(--fg-muted)]">
+                  0{i + 1}
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--fg-dim)]">
+                  {s.label}
+                </span>
+              </div>
+              <div
+                className="font-display text-4xl font-medium leading-none tabular-nums text-[color:var(--fg)] sm:text-5xl"
+                style={{ fontVariationSettings: '"opsz" 144' }}
+              >
+                {s.value}
+              </div>
             </div>
-            <div className="mt-0.5 text-[10px] uppercase tracking-widest text-white/40">
-              {s.label}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {project.stack.map((s) => (
-          <span key={s} className="chip">
-            {s}
-          </span>
-        ))}
-      </div>
-
-      <div className="mt-5 flex items-center justify-between">
-        <a
-          href={project.liveUrl ?? "#"}
-          target={project.liveUrl ? "_blank" : undefined}
-          rel={project.liveUrl ? "noreferrer" : undefined}
-          className={`inline-flex items-center gap-1.5 text-sm font-medium transition ${
-            project.liveUrl
-              ? "text-white hover:text-accent-glow"
-              : "text-white/40"
-          }`}
-        >
-          {project.liveUrl ? "Live demo" : "Demo coming soon"}
-          <ArrowUpRight className="h-4 w-4" />
-        </a>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">
-          0{index + 1}
-        </span>
+        <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]">
+          Filed under: {project.stack.slice(0, 3).join(" · ")}
+        </p>
       </div>
     </motion.article>
   );

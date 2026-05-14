@@ -14,23 +14,23 @@ const config: Config = {
       },
       colors: {
         ink: {
-          950: "#06070b",
-          900: "#0a0c14",
-          800: "#101320",
-          700: "#171a2a",
-          600: "#1f2438",
+          950: "#f6f1e8",
+          900: "#efe7d6",
+          800: "#e6dcc6",
+          700: "#1a1815",
+          600: "#262320",
         },
         accent: {
-          DEFAULT: "#7c5cff",
-          glow: "#a78bff",
-          cool: "#22d3ee",
-          warm: "#f472b6",
-          lime: "#84e1bc",
+          DEFAULT: "#c9482b",
+          glow: "#e85a37",
+          cool: "#1a1815",
+          warm: "#c9482b",
+          lime: "#c9482b",
         },
       },
       backgroundImage: {
         "grid-fade":
-          "radial-gradient(ellipse at center, rgba(124,92,255,0.08) 0%, transparent 60%)",
+          "radial-gradient(ellipse at center, rgba(201,72,43,0.06) 0%, transparent 60%)",
         "noise":
           "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
       },

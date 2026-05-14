@@ -8,6 +8,8 @@ type SectionHeaderProps = {
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
+  /** Magazine-style section number, e.g. "02". */
+  index?: string;
 };
 
 export function SectionHeader({
@@ -15,6 +17,7 @@ export function SectionHeader({
   title,
   description,
   align = "left",
+  index,
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -25,16 +28,25 @@ export function SectionHeader({
       className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}
     >
       <div
-        className={`section-eyebrow flex items-center gap-3 ${
+        className={`flex items-center gap-4 text-[color:var(--accent)] ${
           align === "center" ? "justify-center" : ""
         }`}
       >
-        <span className="h-px w-8 bg-accent/60" />
-        {eyebrow}
+        {index && (
+          <span className="font-mono text-xs tabular-nums tracking-[0.28em]">
+            §&nbsp;{index}
+          </span>
+        )}
+        <span className="font-mono text-xs uppercase tracking-[0.28em]">
+          {eyebrow}
+        </span>
+        <span className="h-px flex-1 bg-[color:var(--rule-strong)]" />
       </div>
-      <h2 className="section-title mt-4">{title}</h2>
+      <h2 className="section-title mt-6">{title}</h2>
       {description && (
-        <p className="mt-5 text-lg text-white/60">{description}</p>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--fg-dim)]">
+          {description}
+        </p>
       )}
     </motion.div>
   );

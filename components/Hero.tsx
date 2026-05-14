@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, FileText, MapPin, Mail } from "lucide-react";
+import { ArrowUpRight, Sparkles, FileText } from "lucide-react";
 import { profile } from "@/lib/profile";
 
 type HeroProps = {
@@ -23,218 +23,183 @@ const TICKER = [
   "Docker",
 ];
 
+const fade = {
+  hidden: { opacity: 0, y: 18 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: 0.08 * i, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
+
 export function Hero({ onAskAI }: HeroProps) {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
+      className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pt-28"
     >
-      <div className="container-x relative z-10 grid items-center gap-10 py-20 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
+      {/* Top metadata strip — like a magazine masthead */}
+      <motion.div
+        custom={0}
+        variants={fade}
+        initial="hidden"
+        animate="show"
+        className="container-x flex items-center justify-between border-b border-[color:var(--rule)] pb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]"
+      >
+        <span>Issue No. 01 · Portfolio</span>
+        <span className="hidden sm:inline">College Park, Maryland</span>
+        <span>{new Date().getFullYear()}</span>
+      </motion.div>
+
+      <div className="container-x flex-1 py-16 lg:py-24">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
+          {/* Left margin: small intro paragraph */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5"
+            custom={1}
+            variants={fade}
+            initial="hidden"
+            animate="show"
+            className="col-span-12 lg:col-span-3 lg:pt-4"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/70">
-              {profile.status}
-            </span>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--accent)]">
+              ⌖ Currently
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-[color:var(--fg-dim)]">
+              {profile.status}.
+              <br />
+              <br />
+              <span className="text-[color:var(--fg)]">
+                Available for conversations.
+              </span>
+            </p>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl md:text-7xl"
-          >
-            Hi, I'm <span className="text-gradient-rose">Ameer</span>.
-            <br />
-            <span className="text-white/95">I build </span>
-            <span className="relative inline-block">
-              <span className="text-gradient-violet">intelligent</span>
-              <svg
-                aria-hidden
-                viewBox="0 0 200 14"
-                className="absolute -bottom-2 left-0 h-3 w-full text-accent/70"
-                preserveAspectRatio="none"
+          {/* Center: enormous serif headline */}
+          <div className="col-span-12 lg:col-span-9">
+            <motion.div
+              custom={2}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]"
+            >
+              An essay in six chapters by Ameer Sohail Shaik
+            </motion.div>
+
+            <motion.h1
+              custom={3}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              className="mt-6 font-display font-medium leading-[0.92] tracking-[-0.025em] text-[color:var(--fg)]"
+              style={{
+                fontSize: "clamp(3.2rem, 9vw, 8rem)",
+                fontVariationSettings: '"opsz" 144, "SOFT" 30',
+              }}
+            >
+              <span className="block">Notes on</span>
+              <span className="block italic text-[color:var(--accent)]">
+                shipping models
+              </span>
+              <span className="block">into the world.</span>
+            </motion.h1>
+
+            <motion.div
+              custom={4}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-16"
+            >
+              <p className="text-lg leading-relaxed text-[color:var(--fg-dim)]">
+                I'm a data scientist and ML engineer who lives in the seam
+                between rigorous experimentation and production engineering.
+                Forecasting, multimodal RAG, causal inference at MovieLens
+                scale, large-scale Spark feature stores — I take ideas from
+                a Jupyter cell to a deployed API and I keep them honest
+                with metrics.
+              </p>
+
+              <div className="space-y-3 text-sm">
+                <a
+                  href="#projects"
+                  className="group flex items-center justify-between border-b border-[color:var(--rule)] pb-3 text-[color:var(--fg)] transition-colors hover:border-[color:var(--fg)]"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]">
+                    Ch. 01 — The work
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 -translate-y-px transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-1" />
+                </a>
+                <a
+                  href="#experience"
+                  className="group flex items-center justify-between border-b border-[color:var(--rule)] pb-3 text-[color:var(--fg)] transition-colors hover:border-[color:var(--fg)]"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]">
+                    Ch. 02 — The companies
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 -translate-y-px transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-1" />
+                </a>
+                <button
+                  onClick={onAskAI}
+                  className="group flex w-full items-center justify-between border-b border-[color:var(--rule)] pb-3 text-left text-[color:var(--fg)] transition-colors hover:border-[color:var(--accent)]"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--accent)]">
+                    Ch. 03 — Ask the concierge
+                  </span>
+                  <Sparkles className="h-4 w-4 text-[color:var(--accent)] transition-transform group-hover:rotate-12" />
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              custom={5}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              className="mt-12 flex flex-wrap items-center gap-3"
+            >
+              <button onClick={onAskAI} className="btn btn-primary">
+                <Sparkles className="h-4 w-4" />
+                Start a conversation
+              </button>
+              <a
+                href={profile.links.resume}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-ghost"
               >
-                <path
-                  d="M2 8 Q 60 2, 110 6 T 198 5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>{" "}
-            <span className="text-white/95">systems.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-white/65 sm:text-xl"
-          >
-            {profile.tagline}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
-            <button
-              onClick={onAskAI}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-accent via-accent-glow to-accent-cool px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_-12px_rgba(124,92,255,0.7)] transition-all hover:scale-[1.02]"
-            >
-              <span className="absolute inset-0 -z-10 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.45)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
-              <Sparkles className="h-4 w-4" />
-              Ask my AI: "Why is Ameer a fit?"
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
-            <a
-              href="#projects"
-              className="btn btn-ghost"
-            >
-              View projects
-            </a>
-            <a
-              href={profile.links.resume}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-ghost"
-            >
-              <FileText className="h-4 w-4" />
-              Resume
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/50"
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin className="h-4 w-4" />
-              {profile.location}
-            </span>
-            <a
-              href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-1.5 hover:text-white"
-            >
-              <Mail className="h-4 w-4" />
-              {profile.email}
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Hero "card stack" — visual showpiece */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative mx-auto hidden h-[440px] w-full max-w-[460px] lg:block"
-        >
-          <HeroVisual />
-        </motion.div>
-      </div>
-
-      {/* Tech ticker */}
-      <div className="absolute inset-x-0 bottom-0 z-10 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-sm">
-        <div className="flex w-max animate-marquee gap-12 py-3 font-mono text-xs uppercase tracking-[0.2em] text-white/40">
-          {[...TICKER, ...TICKER].map((t, i) => (
-            <span key={i} className="flex items-center gap-12">
-              <span>{t}</span>
-              <span className="text-accent/60">◆</span>
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HeroVisual() {
-  return (
-    <div className="relative h-full w-full">
-      {/* Glow */}
-      <div className="absolute inset-0 rounded-[32px] bg-gradient-to-br from-accent/30 via-accent-cool/20 to-accent-warm/20 blur-3xl" />
-
-      {/* Big stat card */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-0 top-4 w-[78%] rounded-2xl border border-white/10 bg-ink-900/80 p-5 backdrop-blur-xl"
-      >
-        <div className="mb-3 flex items-center gap-2 text-xs text-white/50">
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
-          <span className="font-mono uppercase tracking-widest">production impact</span>
-        </div>
-        <div className="font-display text-4xl font-bold text-white">
-          95%
-        </div>
-        <div className="mt-1 text-sm text-white/55">
-          ETL runtime cut: 60 → 3 min/sync, freeing 8+ analyst-hours/week
-          @ Proceedit
-        </div>
-        <div className="mt-4 flex h-2 w-full overflow-hidden rounded-full bg-white/5">
-          <div className="h-full w-[99%] rounded-full bg-gradient-to-r from-accent to-accent-cool" />
-        </div>
-      </motion.div>
-
-      {/* Code-ish card */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-0 top-32 w-[65%] rounded-2xl border border-white/10 bg-ink-900/80 p-4 font-mono text-[11px] leading-relaxed text-white/70 backdrop-blur-xl"
-      >
-        <div className="mb-2 flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-          <span className="ml-2 text-[10px] text-white/40">rag.py</span>
-        </div>
-        <div>
-          <span className="text-pink-300">def</span>{" "}
-          <span className="text-accent-glow">retrieve</span>(q):
-        </div>
-        <div className="pl-4">
-          dense = <span className="text-emerald-300">cosine</span>(q)
-        </div>
-        <div className="pl-4">
-          sparse = <span className="text-emerald-300">bm25</span>(q)
-        </div>
-        <div className="pl-4">
-          <span className="text-pink-300">return</span> rrf(dense, sparse)
-        </div>
-      </motion.div>
-
-      {/* AI chip */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-4 left-8 w-[70%] rounded-2xl border border-white/10 bg-ink-900/80 p-4 backdrop-blur-xl"
-      >
-        <div className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent to-accent-cool">
-            <Sparkles className="h-4 w-4 text-white" />
+                <FileText className="h-4 w-4" />
+                Read the resume
+              </a>
+            </motion.div>
           </div>
-          <div>
-            <div className="text-xs text-white/50">Concierge AI</div>
-            <div className="text-sm font-medium text-white">
-              "Strong fit for Data Science & AI roles."
+        </div>
+      </div>
+
+      {/* Bottom: ticker as "in this issue" */}
+      <motion.div
+        custom={6}
+        variants={fade}
+        initial="hidden"
+        animate="show"
+        className="border-t border-[color:var(--rule)]"
+      >
+        <div className="container-x flex items-center gap-6 py-3">
+          <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--accent)]">
+            In this issue
+          </span>
+          <div className="relative flex-1 overflow-hidden">
+            <div className="flex w-max animate-marquee gap-10 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--fg-muted)]">
+              {[...TICKER, ...TICKER].map((t, i) => (
+                <span key={i} className="flex items-center gap-10">
+                  <span>{t}</span>
+                  <span className="text-[color:var(--accent)]">·</span>
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

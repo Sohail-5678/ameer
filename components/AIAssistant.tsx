@@ -14,7 +14,6 @@ import {
   X,
   Trash2,
   ClipboardPaste,
-  Loader2,
   ShieldCheck,
   ArrowDown,
 } from "lucide-react";
@@ -273,7 +272,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => onOpenChange(false)}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-[#1a1815]/45 backdrop-blur-sm"
           />
 
           <motion.div
@@ -281,40 +280,43 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-3 bottom-3 top-3 z-50 flex flex-col overflow-hidden rounded-3xl glass-strong sm:inset-auto sm:right-6 sm:bottom-6 sm:top-6 sm:w-[460px] md:w-[540px] lg:w-[620px]"
+            className="fixed inset-x-3 bottom-3 top-3 z-50 flex flex-col overflow-hidden rounded-3xl border border-[#1a1815] bg-[#1a1815] text-[#f6f1e8] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] sm:inset-auto sm:right-6 sm:bottom-6 sm:top-6 sm:w-[460px] md:w-[540px] lg:w-[620px]"
             role="dialog"
             aria-modal="true"
             aria-label="AI concierge chat"
           >
             {/* glow ring */}
-            <div className="pointer-events-none absolute -inset-px -z-10 rounded-3xl bg-gradient-to-br from-accent/40 via-accent-cool/20 to-accent-warm/30 opacity-50 blur-2xl" />
+            <div className="pointer-events-none absolute -inset-px -z-10 rounded-3xl" />
 
             {/* Header */}
-            <div className="relative flex items-center gap-3 border-b border-white/10 px-5 py-4">
+            <div className="relative flex items-center gap-3 border-b border-[#f6f1e8]/15 px-5 py-4">
               <div className="relative">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent via-accent-glow to-accent-cool shadow-[0_0_30px_-5px_rgba(124,92,255,0.7)]">
-                  <Sparkles className="h-5 w-5 text-white" />
+                <div className="grid h-10 w-10 place-items-center rounded-full border border-[#c9482b] bg-[#c9482b] text-[#f6f1e8]">
+                  <Sparkles className="h-4 w-4" />
                 </div>
-                <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-ink-900 bg-emerald-400" />
+                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#1a1815] bg-emerald-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-white">
-                    Ameer's AI Concierge
+                  <h3
+                    className="font-display text-lg font-medium tracking-tight text-[#f6f1e8]"
+                    style={{ fontVariationSettings: '"opsz" 96' }}
+                  >
+                    The Concierge
                   </h3>
-                  <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-emerald-300">
+                  <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#c9482b]/40 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.22em] text-[#e85a37]">
                     <ShieldCheck className="h-3 w-3" />
                     Grounded
                   </span>
                 </div>
-                <p className="truncate text-xs text-white/55">
+                <p className="truncate font-mono text-[10px] uppercase tracking-[0.22em] text-[#f6f1e8]/45">
                   {headerSubtitle}
                 </p>
               </div>
               {hasMessages && (
                 <button
                   onClick={clear}
-                  className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-[#f6f1e8]/15 text-[#f6f1e8]/60 transition hover:border-[#c9482b] hover:text-[#e85a37]"
                   aria-label="Clear conversation"
                   title="Clear conversation"
                 >
@@ -323,7 +325,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
               )}
               <button
                 onClick={() => onOpenChange(false)}
-                className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
+                className="grid h-9 w-9 place-items-center rounded-full border border-[#f6f1e8]/15 text-[#f6f1e8]/60 transition hover:border-[#f6f1e8] hover:text-[#f6f1e8]"
                 aria-label="Close"
               >
                 <X className="h-4 w-4" />
@@ -355,7 +357,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
               )}
 
               {errorMsg && (
-                <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm text-rose-200">
+                <div className="mt-4 border-y border-rose-400/40 bg-rose-400/10 px-4 py-3 text-sm text-rose-200">
                   <strong className="font-semibold">Couldn't reach the AI.</strong>{" "}
                   {errorMsg}
                 </div>
@@ -369,7 +371,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   onClick={() => scrollToBottom()}
-                  className="absolute bottom-32 right-5 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white shadow-lg backdrop-blur-md transition hover:bg-white/20"
+                  className="absolute bottom-32 right-5 z-10 grid h-9 w-9 place-items-center rounded-full border border-[#c9482b] bg-[#c9482b] text-[#f6f1e8] shadow-lg transition hover:bg-[#e85a37]"
                   aria-label="Jump to latest"
                 >
                   <ArrowDown className="h-4 w-4" />
@@ -378,7 +380,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
             </AnimatePresence>
 
             {/* Composer */}
-            <div className="border-t border-white/10 bg-black/30 px-3 py-3 sm:px-4 sm:py-4">
+            <div className="border-t border-[#f6f1e8]/15 bg-[#0f0d0a] px-3 py-3 sm:px-4 sm:py-4">
               {/* suggestions strip when empty */}
               {!hasMessages && (
                 <div className="mb-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -386,7 +388,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                     <button
                       key={s.label}
                       onClick={() => send(s.prompt)}
-                      className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/75 transition hover:border-accent/50 hover:bg-accent/10 hover:text-white"
+                      className="shrink-0 rounded-full border border-[#f6f1e8]/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#f6f1e8]/65 transition hover:border-[#c9482b] hover:text-[#e85a37]"
                     >
                       {s.label}
                     </button>
@@ -394,7 +396,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                 </div>
               )}
 
-              <div className="relative flex items-end gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-2 focus-within:border-accent/50 focus-within:bg-white/[0.06]">
+              <div className="relative flex items-end gap-2 rounded-2xl border border-[#f6f1e8]/15 bg-[#f6f1e8]/[0.03] p-2 focus-within:border-[#c9482b]/60 focus-within:bg-[#f6f1e8]/[0.05]">
                 <textarea
                   ref={inputRef}
                   rows={1}
@@ -409,11 +411,11 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder="Paste a job description, or ask anything about Ameer…"
-                  className="flex-1 resize-none bg-transparent px-2 py-2 text-sm text-white placeholder:text-white/35 focus:outline-none"
+                  className="flex-1 resize-none bg-transparent px-2 py-2 text-sm text-[#f6f1e8] placeholder:text-[#f6f1e8]/35 focus:outline-none"
                 />
                 <button
                   onClick={onPaste}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-white/55 transition hover:bg-white/10 hover:text-white"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-[#f6f1e8]/55 transition hover:bg-[#f6f1e8]/10 hover:text-[#f6f1e8]"
                   aria-label="Paste from clipboard"
                   title="Paste"
                 >
@@ -422,11 +424,11 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                 {isStreaming ? (
                   <button
                     onClick={stop}
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/10 text-white transition hover:bg-white/15"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#f6f1e8]/10 text-[#f6f1e8] transition hover:bg-[#f6f1e8]/15"
                     aria-label="Stop"
                     title="Stop"
                   >
-                    <span className="block h-3 w-3 rounded-sm bg-white" />
+                    <span className="block h-3 w-3 rounded-sm bg-[#f6f1e8]" />
                   </button>
                 ) : (
                   <button
@@ -435,8 +437,8 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                     className={cn(
                       "grid h-9 w-9 shrink-0 place-items-center rounded-xl transition",
                       input.trim()
-                        ? "bg-gradient-to-br from-accent to-accent-cool text-white shadow-[0_8px_30px_-8px_rgba(124,92,255,0.7)] hover:scale-105"
-                        : "bg-white/10 text-white/40",
+                        ? "bg-[#c9482b] text-[#f6f1e8] hover:bg-[#e85a37]"
+                        : "bg-[#f6f1e8]/10 text-[#f6f1e8]/40",
                     )}
                     aria-label="Send"
                     title="Send (↵)"
@@ -445,7 +447,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                   </button>
                 )}
               </div>
-              <div className="mt-2 flex items-center justify-between px-1 text-[10px] uppercase tracking-widest text-white/35">
+              <div className="mt-2 flex items-center justify-between px-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#f6f1e8]/35">
                 <span>Powered by Groq · Llama 3.3 70B</span>
                 <span className="hidden sm:inline">
                   ⏎ send · shift ⏎ newline
@@ -468,16 +470,15 @@ export function AILauncher({ onClick }: { onClick: () => void }) {
       initial={{ opacity: 0, scale: 0.8, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 1, duration: 0.5 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.96 }}
       onClick={onClick}
-      className="group fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-gradient-to-br from-accent via-accent-glow to-accent-cool px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_-12px_rgba(124,92,255,0.7)] sm:bottom-7 sm:right-7"
+      className="group fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full border border-[color:var(--fg)] bg-[color:var(--fg)] px-5 py-3 text-sm font-medium text-[color:var(--bg)] shadow-[0_18px_40px_-12px_rgba(26,24,21,0.45)] transition-colors hover:bg-[color:var(--accent)] hover:border-[color:var(--accent)] sm:bottom-7 sm:right-7"
       aria-label="Open AI concierge"
     >
-      <span className="absolute -inset-1 -z-10 rounded-full bg-gradient-to-br from-accent to-accent-cool opacity-50 blur-xl transition-opacity group-hover:opacity-80" />
       <Sparkles className="h-4 w-4" />
-      <span>Ask AI</span>
-      <span className="ml-1 hidden rounded-md bg-white/15 px-1.5 py-0.5 font-mono text-[10px] tracking-widest sm:inline-block">
+      <span>Ask the concierge</span>
+      <span className="ml-1 hidden rounded-md border border-current px-1.5 py-0.5 font-mono text-[10px] tracking-widest opacity-70 sm:inline-block">
         ⌘K
       </span>
     </motion.button>
@@ -506,21 +507,21 @@ function Bubble({
     >
       <div
         className={cn(
-          "grid h-8 w-8 shrink-0 place-items-center rounded-xl text-xs font-semibold",
+          "grid h-8 w-8 shrink-0 place-items-center rounded-full text-[10px] font-mono uppercase tracking-widest",
           isUser
-            ? "bg-white/10 text-white"
-            : "bg-gradient-to-br from-accent to-accent-cool text-white",
+            ? "border border-[#f6f1e8]/30 text-[#f6f1e8]/80"
+            : "bg-[#c9482b] text-[#f6f1e8]",
         )}
         aria-hidden
       >
-        {isUser ? "You" : <Sparkles className="h-4 w-4" />}
+        {isUser ? "You" : <Sparkles className="h-3.5 w-3.5" />}
       </div>
       <div
         className={cn(
-          "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed",
+          "max-w-[85%] px-4 py-3 text-sm leading-relaxed",
           isUser
-            ? "bg-accent/15 text-white"
-            : "bg-white/[0.04] text-white/85",
+            ? "rounded-2xl border border-[#c9482b]/40 bg-[#c9482b]/15 text-[#f6f1e8]"
+            : "rounded-2xl border border-[#f6f1e8]/10 bg-[#f6f1e8]/[0.03] text-[#f6f1e8]/90",
         )}
       >
         {content === "" && streaming ? (
@@ -533,7 +534,7 @@ function Bubble({
           <div className="chat-prose">
             <RichText text={content} />
             {streaming && (
-              <span className="ml-0.5 inline-block h-4 w-1 animate-pulse bg-accent-glow align-middle" />
+              <span className="ml-0.5 inline-block h-4 w-1 animate-pulse bg-[#e85a37] align-middle" />
             )}
           </div>
         )}
@@ -692,33 +693,52 @@ function renderInline(s: string) {
 // -----------------------------------------------------------------------------
 function Welcome({ onPick }: { onPick: (p: string) => void }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center text-center">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-accent via-accent-glow to-accent-cool shadow-[0_0_60px_-10px_rgba(124,92,255,0.7)]"
-      >
-        <Sparkles className="h-8 w-8 text-white" />
-      </motion.div>
-      <h4 className="mt-5 font-display text-2xl font-semibold text-white">
-        Ask anything about Ameer.
-      </h4>
-      <p className="mt-2 max-w-sm text-sm text-white/60">
-        Paste a job description, ask about a project, or just say hi. Answers
-        are <strong className="text-white">grounded in his actual profile</strong>{" "}
-        — no hallucinations, ever.
-      </p>
-      <div className="mt-6 grid w-full max-w-md grid-cols-1 gap-2">
-        {SUGGESTIONS.map((s) => (
-          <button
-            key={s.label}
-            onClick={() => onPick(s.prompt)}
-            className="group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-left text-sm text-white/80 transition hover:border-accent/40 hover:bg-accent/[0.08] hover:text-white"
-          >
-            <span>{s.label}</span>
-            <Loader2 className="h-4 w-4 -rotate-45 text-white/40 transition group-hover:rotate-0 group-hover:text-accent-glow" />
-          </button>
-        ))}
+    <div className="flex h-full flex-col">
+      {/* Editorial header — like a magazine column intro */}
+      <div className="border-b border-[#f6f1e8]/15 pb-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#e85a37]">
+          § Concierge · grounded in profile
+        </p>
+        <h4
+          className="mt-4 font-display text-3xl font-medium leading-[1.05] tracking-tight text-[#f6f1e8] sm:text-4xl"
+          style={{ fontVariationSettings: '"opsz" 144' }}
+        >
+          Ask anything about{" "}
+          <em className="italic text-[#e85a37]">Ameer</em>.
+        </h4>
+        <p className="mt-4 max-w-md text-sm leading-relaxed text-[#f6f1e8]/65">
+          Paste a job description, ask about a project, or just say hi.
+          Every answer is{" "}
+          <span className="text-[#f6f1e8]">grounded in his actual profile</span>{" "}
+          — no hallucinations, ever.
+        </p>
+      </div>
+
+      {/* Numbered prompt index */}
+      <div className="mt-8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#f6f1e8]/45">
+          Suggested openings
+        </p>
+        <ul className="mt-4 divide-y divide-[#f6f1e8]/10 border-y border-[#f6f1e8]/10">
+          {SUGGESTIONS.map((s, i) => (
+            <li key={s.label}>
+              <button
+                onClick={() => onPick(s.prompt)}
+                className="group flex w-full items-baseline justify-between gap-4 py-4 text-left transition-colors"
+              >
+                <span className="flex items-baseline gap-4">
+                  <span className="font-mono text-[10px] tabular-nums tracking-[0.22em] text-[#f6f1e8]/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-[15px] text-[#f6f1e8]/85 transition-colors group-hover:text-[#e85a37]">
+                    {s.label}
+                  </span>
+                </span>
+                <ArrowDown className="h-3.5 w-3.5 -rotate-45 text-[#f6f1e8]/30 transition-all group-hover:rotate-0 group-hover:text-[#e85a37]" />
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

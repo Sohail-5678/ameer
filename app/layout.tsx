@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { profile } from "@/lib/profile";
 
-const inter = Inter({
+const sans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
@@ -15,11 +15,11 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const display = Playfair_Display({
+const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  weight: ["700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#06070b",
+  themeColor: "#f6f1e8",
   width: "device-width",
   initialScale: 1,
 };
@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable} ${display.variable}`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

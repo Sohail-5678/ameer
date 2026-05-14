@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
+  { href: "#projects", label: "Work" },
   { href: "#skills", label: "Skills" },
-  { href: "#education", label: "Education" },
+  { href: "#education", label: "Studies" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -56,50 +56,51 @@ export function Navigation({ onAskAI }: NavigationProps) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-all duration-500",
-          scrolled ? "py-2" : "py-4",
+          "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+          scrolled
+            ? "border-b border-[color:var(--rule)] bg-[color:var(--bg)]/85 backdrop-blur-md"
+            : "bg-transparent",
         )}
       >
-        <div
-          className={cn(
-            "container-x flex items-center justify-between rounded-2xl transition-all duration-500",
-            scrolled
-              ? "glass-strong px-4 py-2 sm:px-6"
-              : "px-4 py-2 sm:px-6",
-          )}
-        >
+        <div className="container-x flex items-center justify-between py-4">
           <a
             href="#"
-            className="group flex items-center gap-2 font-mono text-sm font-semibold tracking-tight"
+            className="group flex items-baseline gap-3"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-cool text-white shadow-[0_8px_24px_-8px_rgba(124,92,255,0.7)] transition-transform group-hover:scale-105">
-              AS
+            <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--fg-muted)]">
+              ASS · 01
             </span>
-            <span className="hidden text-white sm:inline">
-              ameer<span className="text-accent">.</span>shaik
+            <span
+              className="font-display text-xl font-medium italic text-[color:var(--fg)] transition-colors group-hover:text-[color:var(--accent)]"
+              style={{ fontVariationSettings: '"opsz" 144' }}
+            >
+              Ameer&nbsp;Shaik
             </span>
           </a>
 
-          <nav className="hidden items-center gap-1 lg:flex">
-            {links.map((l) => (
+          <nav className="hidden items-center gap-7 lg:flex">
+            {links.map((l, i) => (
               <a
                 key={l.href}
                 href={l.href}
                 className={cn(
-                  "relative rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
+                  "group relative flex items-baseline gap-1.5 text-sm transition-colors",
                   active === l.href
-                    ? "text-white"
-                    : "text-white/60 hover:text-white",
+                    ? "text-[color:var(--fg)]"
+                    : "text-[color:var(--fg-dim)] hover:text-[color:var(--fg)]",
                 )}
               >
+                <span className="font-mono text-[10px] tabular-nums text-[color:var(--fg-muted)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{l.label}</span>
                 {active === l.href && (
                   <motion.span
                     layoutId="nav-active"
-                    className="absolute inset-0 -z-10 rounded-full bg-white/[0.06]"
+                    className="absolute -bottom-1 left-0 h-px w-full bg-[color:var(--accent)]"
                     transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-                {l.label}
               </a>
             ))}
           </nav>
@@ -107,20 +108,19 @@ export function Navigation({ onAskAI }: NavigationProps) {
           <div className="flex items-center gap-2">
             <button
               onClick={onAskAI}
-              className="group relative hidden items-center gap-2 overflow-hidden rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white shadow-[0_0_24px_-8px_rgba(124,92,255,0.5)] transition-all hover:border-white/30 hover:bg-white/[0.08] sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full border border-[color:var(--fg)] bg-[color:var(--fg)] px-4 py-2 text-sm font-medium text-[color:var(--bg)] transition-colors hover:bg-[color:var(--accent)] hover:border-[color:var(--accent)] sm:inline-flex"
               aria-label="Ask AI about Ameer"
             >
-              <span className="absolute inset-0 -z-10 bg-gradient-to-r from-accent/20 via-accent-cool/20 to-accent-warm/20 opacity-0 transition-opacity group-hover:opacity-100" />
-              <Sparkles className="h-4 w-4 text-accent-glow transition-transform group-hover:rotate-12" />
-              <span>Ask AI</span>
-              <span className="hidden h-4 w-px bg-white/15 md:inline-block" />
-              <span className="hidden font-mono text-[10px] uppercase tracking-wider text-white/50 md:inline">
-                ⌘ K
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Ask the concierge</span>
+              <span className="hidden h-3 w-px bg-[color:var(--bg)]/30 md:inline-block" />
+              <span className="hidden font-mono text-[10px] uppercase tracking-wider opacity-60 md:inline">
+                ⌘K
               </span>
             </button>
             <button
               onClick={() => setOpen((s) => !s)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-white/80 lg:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--rule-strong)] text-[color:var(--fg)] lg:hidden"
               aria-label="Toggle menu"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -138,15 +138,18 @@ export function Navigation({ onAskAI }: NavigationProps) {
             transition={{ duration: 0.25 }}
             className="fixed inset-x-4 top-[72px] z-40 lg:hidden"
           >
-            <div className="glass-strong rounded-2xl p-4">
+            <div className="rounded-2xl border border-[color:var(--rule-strong)] bg-[color:var(--bg)] p-4 shadow-[0_20px_50px_-20px_rgba(26,24,21,0.25)]">
               <ul className="grid gap-1">
-                {links.map((l) => (
+                {links.map((l, i) => (
                   <li key={l.href}>
                     <a
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className="block rounded-xl px-4 py-2.5 text-sm text-white/80 hover:bg-white/[0.06] hover:text-white"
+                      className="flex items-baseline gap-3 rounded-lg px-3 py-2.5 text-sm text-[color:var(--fg-dim)] hover:bg-[color:var(--bg-elev)] hover:text-[color:var(--fg)]"
                     >
+                      <span className="font-mono text-[10px] text-[color:var(--fg-muted)]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       {l.label}
                     </a>
                   </li>
@@ -157,10 +160,10 @@ export function Navigation({ onAskAI }: NavigationProps) {
                       setOpen(false);
                       onAskAI();
                     }}
-                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-accent-cool px-4 py-2.5 text-sm font-semibold text-white"
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--fg)] px-4 py-2.5 text-sm font-medium text-[color:var(--bg)]"
                   >
                     <Sparkles className="h-4 w-4" />
-                    Ask AI About Ameer
+                    Ask the concierge
                   </button>
                 </li>
               </ul>
