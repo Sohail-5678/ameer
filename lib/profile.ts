@@ -60,7 +60,7 @@ export const profile = {
     portfolio: "https://ameer-shaik.vercel.app",
     resume: "/resume.pdf",
   },
-  status: "Open to Summer 2026 Data Science / ML / AI internship opportunities",
+  status: "Open to Summer 2026 Data Science / ML / AI internship opportunities · Willing to relocate for summer internships",
 
   about: [
     "I'm a Data Science graduate student at the University of Maryland, College Park, with a Computer Science background and hands-on experience shipping production ML systems.",
