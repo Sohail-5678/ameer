@@ -40,22 +40,22 @@ const SUGGESTIONS = [
   {
     label: "Why is Ameer a fit?",
     prompt:
-      "I'm hiring a Machine Learning Engineer focused on production GenAI/RAG systems. Based on Ameer's experience and projects, why is he a strong fit? Map specific evidence to the role and call out any gaps.",
+      "I'm hiring an AI Engineer / Forward Deployed Engineer to build production LLM agents and RAG systems for enterprise customers. Based on Ameer's experience and projects, why is he a strong fit? Map specific evidence to the role and call out any gaps.",
+  },
+  {
+    label: "Walk me through CRL 360",
+    prompt:
+      "Walk me through the CRL 360 agent Ameer built at Oldcastle BuildingEnvelope — what it does, how the Microsoft Fabric and Snowflake-to-OneLake architecture worked, how it was evaluated, and the business impact in numbers.",
+  },
+  {
+    label: "How does he evaluate LLM systems?",
+    prompt:
+      "How does Ameer evaluate LLM systems before shipping them? Point to concrete examples of test sets, accuracy numbers, human review, and citation enforcement from his work.",
   },
   {
     label: "Walk me through Ragnarok",
     prompt:
       "Walk me through the Ragnarok project — architecture, the retrieval ensemble, why each design choice was made, and the impact in numbers.",
-  },
-  {
-    label: "Strongest project for a Data Scientist role",
-    prompt:
-      "If you had to pick the single strongest project that demonstrates Ameer's data-science chops (statistics, experimentation, business framing), which would it be and why?",
-  },
-  {
-    label: "Compare him to a typical 1-yr ML candidate",
-    prompt:
-      "How does Ameer's profile compare to a typical 1-year-experience ML/DS candidate? Be honest about strengths and growth areas based only on what's in his profile.",
   },
 ];
 

@@ -13,8 +13,8 @@ export function About() {
           eyebrow="A bit about me"
           title={
             <>
-              Engineer-minded data scientist who{" "}
-              <em className="italic text-[color:var(--accent)]">ships</em>.
+              AI engineer who ships systems people{" "}
+              <em className="italic text-[color:var(--accent)]">trust</em>.
             </>
           }
         />
@@ -78,10 +78,15 @@ export function About() {
                   Currently
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--fg-dim)]">
-                  M.S. Data Science at the University of Maryland, College
-                  Park. Focus areas:{" "}
                   <span className="text-[color:var(--fg)]">
-                    machine learning, NLP, generative AI
+                    {profile.status}.
+                  </span>
+                  <br />
+                  <br />
+                  M.S. Data Science at the University of Maryland, College
+                  Park — expected May 2027. Focus areas:{" "}
+                  <span className="text-[color:var(--fg)]">
+                    LLM systems, machine learning, NLP
                   </span>
                   .
                 </p>

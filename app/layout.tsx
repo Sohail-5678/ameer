@@ -23,17 +23,19 @@ const display = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sohail-5678.github.io"),
+  metadataBase: new URL(profile.links.portfolio),
   title: `${profile.name} — ${profile.title}`,
   description: profile.tagline,
   keywords: [
     "Ameer Sohail Shaik",
-    "Machine Learning Engineer",
+    "AI Engineer",
+    "Forward Deployed Engineer",
+    "LLM Agents",
+    "RAG",
+    "Microsoft Fabric",
+    "Copilot Studio",
     "Data Scientist",
     "Portfolio",
-    "RAG",
-    "GenAI",
-    "MLOps",
   ],
   authors: [{ name: profile.name }],
   creator: profile.name,

@@ -17,7 +17,7 @@ export function Experience() {
               <em className="italic text-[color:var(--accent)]">real numbers</em>.
             </>
           }
-          description="Production ML, dashboards that executives actually used, and pipelines that ran every morning."
+          description="LLM agents running inside Microsoft Teams, retrieval systems that cite their sources, and pipelines that ran every morning."
         />
 
         <div className="mt-20 space-y-20">

@@ -9,18 +9,20 @@ type HeroProps = {
 };
 
 const TICKER = [
-  "Python",
-  "PyTorch",
+  "Microsoft Fabric",
+  "Copilot Studio",
+  "LLM Agents",
+  "RAG",
+  "Claude",
+  "Text-to-SQL",
+  "OneLake",
   "LangChain",
   "ChromaDB",
+  "Python",
+  "SQL",
   "PySpark",
-  "XGBoost",
-  "RAG",
-  "Airflow",
-  "AWS",
+  "Snowflake",
   "Streamlit",
-  "PostgreSQL",
-  "Docker",
 ];
 
 const fade = {
@@ -99,9 +101,9 @@ export function Hero({ onAskAI }: HeroProps) {
             >
               <span className="block">Notes on</span>
               <span className="block italic text-[color:var(--accent)]">
-                shipping models
+                shipping agents
               </span>
-              <span className="block">into the world.</span>
+              <span className="block">into production.</span>
             </motion.h1>
 
             <motion.div
@@ -112,12 +114,12 @@ export function Hero({ onAskAI }: HeroProps) {
               className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-16"
             >
               <p className="text-lg leading-relaxed text-[color:var(--fg-dim)]">
-                I'm a data scientist and ML engineer who lives in the seam
-                between rigorous experimentation and production engineering.
-                Forecasting, multimodal RAG, causal inference at MovieLens
-                scale, large-scale Spark feature stores — I take ideas from
-                a Jupyter cell to a deployed API and I keep them honest
-                with metrics.
+                I'm an AI engineer who lives in the seam between a model
+                that scores well and a system people actually trust. Fabric
+                data agents inside Teams, source-cited RAG over thousands of
+                documents, agent skills that close real back-office loops —
+                I take ideas from a prototype to something a business runs
+                on, and I keep them honest with evaluation sets.
               </p>
 
               <div className="space-y-3 text-sm">
