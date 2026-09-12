@@ -15,7 +15,7 @@ free, OpenAI-compatible LLM endpoint.
 | Styling     | Tailwind CSS, custom CSS variables, glassmorphism      |
 | Animation   | Framer Motion                                          |
 | Icons       | lucide-react                                           |
-| AI backend  | `/api/chat` route → Groq (`llama-3.3-70b-versatile`) via the `openai` SDK with streaming |
+| AI backend  | `/api/chat` route → Groq (`openai/gpt-oss-120b`) via the `openai` SDK with streaming |
 
 ## Quick start
 
@@ -65,8 +65,8 @@ prefer.
    of the entire profile.
 2. `app/api/chat/route.ts` injects that string into the system prompt with
    strict rules: *"Only use facts from the PROFILE below. Never invent."*
-3. The model (Llama 3.3 70B on Groq) is called at `temperature: 0.4` to keep
-   answers tight and on-script.
+3. The model (`openai/gpt-oss-120b` on Groq) is called at `temperature: 0.4`
+   to keep answers tight and on-script.
 4. If a recruiter asks about something that isn't in the profile (e.g. "did
    Ameer ever use Kafka?"), the model is instructed to say so honestly and
    point them to the contact email.
@@ -105,9 +105,17 @@ public/
 ## Tweaks you'll probably want
 
 - **Live demo links** → edit each project's `liveUrl` in `lib/profile.ts`.
-- **Replace the model** → set `GROQ_MODEL=...` (any model on Groq's catalog
-  works — e.g. `openai/gpt-oss-120b`, `qwen/qwen3-32b`,
-  `meta-llama/llama-4-scout-17b-16e-instruct`, `llama-3.1-8b-instant`).
+- **Replace the model** → set `GROQ_MODEL=...`. Groq retires models fairly
+  often, so if the concierge starts answering with a 404 "model does not
+  exist", list what your key can actually reach and pick from that:
+
+  ```bash
+  curl https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY"
+  ```
+
+  Reasoning models (`gpt-oss`, `qwen3`) need `reasoning_effort: "low"` or they
+  spend the whole token budget thinking and stream back nothing — the route
+  already applies that automatically.
 - **Tighten the system prompt** → it lives in `app/api/chat/route.ts`
   inside the `SYSTEM_PROMPT` template.
 - **Theme colors** → CSS variables in `app/globals.css` and

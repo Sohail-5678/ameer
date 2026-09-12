@@ -22,11 +22,20 @@ export const maxDuration = 60;
 // Groq's chat-completions endpoint is OpenAI-compatible, so the openai SDK
 // works as-is once we point it at this base URL.
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
-// `llama-3.3-70b-versatile` is Groq's flagship instruction-tuned 70B Llama —
-// strong at following strict system-prompt rules, which we need for grounding.
-// Override at runtime via the GROQ_MODEL env var if you want a different model
-// (e.g. `openai/gpt-oss-120b`, `qwen/qwen3-32b`, `llama-3.1-8b-instant`).
-const DEFAULT_MODEL = "llama-3.3-70b-versatile";
+// `openai/gpt-oss-120b` is Groq's flagship open-weight model — strong at
+// following strict system-prompt rules, which is what the grounding contract
+// depends on. (The previous default, `llama-3.3-70b-versatile`, was retired
+// from Groq's catalog and now 404s.)
+// Override at runtime via the GROQ_MODEL env var. Check what your key can
+// actually reach first: GET https://api.groq.com/openai/v1/models.
+const DEFAULT_MODEL = "openai/gpt-oss-120b";
+
+// gpt-oss / qwen3 models emit chain-of-thought into a separate `reasoning`
+// delta that we deliberately drop. At the default effort they will happily
+// spend the entire token budget thinking and stream back ZERO content, so we
+// pin reasoning to "low" — the answer is grounded in the profile below, not
+// something the model needs to reason its way to.
+const REASONING_MODEL = /gpt-oss|qwen3/i;
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -135,6 +144,7 @@ export async function POST(req: Request) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
+      let sawContent = false;
       try {
         const completion = await client.chat.completions.create({
           model,
@@ -146,11 +156,28 @@ export async function POST(req: Request) {
           top_p: 0.9,
           max_tokens: 1400,
           stream: true,
+          ...(REASONING_MODEL.test(model)
+            ? { reasoning_effort: "low" as const }
+            : {}),
         });
 
         for await (const chunk of completion) {
           const delta = chunk?.choices?.[0]?.delta?.content;
-          if (delta) controller.enqueue(encoder.encode(delta));
+          if (delta) {
+            sawContent = true;
+            controller.enqueue(encoder.encode(delta));
+          }
+        }
+
+        // A stream that closes without a single content token means the model
+        // burned its budget elsewhere (usually reasoning). Say so instead of
+        // leaving an empty chat bubble on screen.
+        if (!sawContent) {
+          controller.enqueue(
+            encoder.encode(
+              `_⚠️ The AI service returned an empty response. Please try again, or email Ameer directly at ${profile.email}._`,
+            ),
+          );
         }
       } catch (err: unknown) {
         const message =
