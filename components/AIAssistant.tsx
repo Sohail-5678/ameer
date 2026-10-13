@@ -53,9 +53,19 @@ const SUGGESTIONS = [
       "How does Ameer evaluate LLM systems before shipping them? Point to concrete examples of test sets, accuracy numbers, human review, and citation enforcement from his work.",
   },
   {
-    label: "Walk me through Ragnarok",
+    label: "What does AgentForge do?",
     prompt:
-      "Walk me through the Ragnarok project — architecture, the retrieval ensemble, why each design choice was made, and the impact in numbers.",
+      "What is AgentForge and what problem does it solve? Cover how the eval harness grades an agent's actions, the red-teaming suite, the LLM-as-judge gate, and what has to be true before a new prompt is promoted.",
+  },
+  {
+    label: "Walk me through ReturnPilot",
+    prompt:
+      "Walk me through ReturnPilot — the LangGraph architecture, how MCP is used, how human approval works for refunds, and the guardrail layers that keep it safe.",
+  },
+  {
+    label: "How does DataPilot stay safe?",
+    prompt:
+      "How does DataPilot keep model-written SQL and Python safe? Cover the sqlglot guard, the read-only database setup, the Pyodide sandbox, and how self-consistency voting improves accuracy.",
   },
 ];
 
@@ -448,7 +458,7 @@ export function AIAssistant({ open, onOpenChange }: AIAssistantProps) {
                 )}
               </div>
               <div className="mt-2 flex items-center justify-between px-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#f6f1e8]/35">
-                <span>Powered by Groq · Llama 3.3 70B</span>
+                <span>Powered by Groq · GPT-OSS 120B</span>
                 <span className="hidden sm:inline">
                   ⏎ send · shift ⏎ newline
                 </span>
