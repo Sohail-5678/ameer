@@ -558,6 +558,7 @@ function Bubble({
  *  - **bold**, *em*, `code`
  *  - leading "- " or "* " lines → unordered lists
  *  - leading "## " → h3
+ *  - GitHub-style pipe tables → a real <table> that scrolls sideways
  *  - blank lines → paragraph break
  * No external lib so the bundle stays small.
  */
@@ -582,6 +583,30 @@ function RichText({ text }: { text: string }) {
             </ul>
           );
         }
+        if (b.type === "table") {
+          return (
+            <div key={i} className="chat-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    {b.head.map((h, j) => (
+                      <th key={j}>{renderInline(h)}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.rows.map((row, ri) => (
+                    <tr key={ri}>
+                      {b.head.map((_, ci) => (
+                        <td key={ci}>{renderInline(row[ci] ?? "")}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
         return (
           <p key={i}>
             {renderInline(b.content)}
@@ -595,7 +620,22 @@ function RichText({ text }: { text: string }) {
 type Block =
   | { type: "p"; content: string }
   | { type: "h"; content: string }
-  | { type: "ul"; items: string[] };
+  | { type: "ul"; items: string[] }
+  | { type: "table"; head: string[]; rows: string[][] };
+
+// A pipe-table row: has at least one "|" with content around it.
+const isTableRow = (l: string) => l.includes("|") && /\S/.test(l.replace(/\|/g, ""));
+// The |---|:--:| divider under the header. Requires a pipe so a plain "---"
+// horizontal rule doesn't masquerade as one.
+const isTableSep = (l: string) =>
+  /^[\s|:-]+$/.test(l) && l.includes("-") && l.includes("|");
+
+function splitRow(line: string): string[] {
+  let s = line.trim();
+  if (s.startsWith("|")) s = s.slice(1);
+  if (s.endsWith("|")) s = s.slice(0, -1);
+  return s.split("|").map((c) => c.trim());
+}
 
 function parseBlocks(text: string): Block[] {
   const lines = text.replace(/\r\n/g, "\n").split("\n");
@@ -616,13 +656,38 @@ function parseBlocks(text: string): Block[] {
     }
   };
 
-  for (const raw of lines) {
-    const line = raw.trimEnd();
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trimEnd();
     if (line === "") {
       flushP();
       flushUl();
       continue;
     }
+
+    // Pipe table: a header row immediately followed by a |---| divider.
+    // Mid-stream the divider may not have arrived yet; until it does the line
+    // renders as ordinary text and snaps into a table once it lands.
+    if (
+      isTableRow(line) &&
+      i + 1 < lines.length &&
+      isTableSep(lines[i + 1].trim())
+    ) {
+      flushP();
+      flushUl();
+      const head = splitRow(line);
+      const rows: string[][] = [];
+      let j = i + 2;
+      while (j < lines.length) {
+        const r = lines[j].trim();
+        if (r === "" || !isTableRow(r)) break;
+        if (!isTableSep(r)) rows.push(splitRow(r));
+        j++;
+      }
+      blocks.push({ type: "table", head, rows });
+      i = j - 1;
+      continue;
+    }
+
     const heading = line.match(/^#{1,3}\s+(.*)$/);
     const bullet = line.match(/^[-*]\s+(.*)$/);
     if (heading) {
