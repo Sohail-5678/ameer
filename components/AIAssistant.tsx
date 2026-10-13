@@ -709,7 +709,58 @@ function parseBlocks(text: string): Block[] {
   return blocks;
 }
 
+// Matches, in priority order: [label](url), <url>, and a bare url.
+const LINK_RE =
+  /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|<(https?:\/\/[^\s>]+)>|(https?:\/\/[^\s<>()[\]]+)/g;
+
+/**
+ * Top level of inline rendering: pull links out first, then hand the text
+ * between them to the emphasis tokenizer. Doing links here (rather than
+ * inside that tokenizer) keeps its forward-progress guarantee untouched.
+ */
 function renderInline(s: string) {
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  LINK_RE.lastIndex = 0;
+
+  while ((m = LINK_RE.exec(s)) !== null) {
+    if (m.index > last) {
+      out.push(...renderEmphasis(s.slice(last, m.index), `t${last}`));
+    }
+    const label = m[1];
+    let url = m[2] ?? m[3] ?? m[4] ?? "";
+
+    // Sentence punctuation that happens to sit against the URL is not part
+    // of it — "see https://x.dev/." must not link to a href ending in ".".
+    let trail = "";
+    while (/[.,;:!?)\]]$/.test(url)) {
+      trail = url.slice(-1) + trail;
+      url = url.slice(0, -1);
+    }
+
+    if (url) {
+      out.push(
+        <a
+          key={`a${m.index}`}
+          href={url}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="chat-link"
+        >
+          {label ?? url}
+        </a>,
+      );
+    }
+    if (trail) out.push(<span key={`p${m.index}`}>{trail}</span>);
+    last = m.index + m[0].length;
+  }
+
+  if (last < s.length) out.push(...renderEmphasis(s.slice(last), `t${last}`));
+  return out;
+}
+
+function renderEmphasis(s: string, keyPrefix: string) {
   // Order matters: code -> bold -> em
   const tokens: Array<string | { type: "code" | "b" | "i"; text: string }> = [];
   let i = 0;
@@ -752,13 +803,13 @@ function renderInline(s: string) {
   }
   return tokens.map((t, idx) =>
     typeof t === "string" ? (
-      <span key={idx}>{t}</span>
+      <span key={`${keyPrefix}-${idx}`}>{t}</span>
     ) : t.type === "code" ? (
-      <code key={idx}>{t.text}</code>
+      <code key={`${keyPrefix}-${idx}`}>{t.text}</code>
     ) : t.type === "b" ? (
-      <strong key={idx}>{t.text}</strong>
+      <strong key={`${keyPrefix}-${idx}`}>{t.text}</strong>
     ) : (
-      <em key={idx}>{t.text}</em>
+      <em key={`${keyPrefix}-${idx}`}>{t.text}</em>
     ),
   );
 }

@@ -222,6 +222,22 @@
 }
 .chat-prose li + li { margin-top: 0.25rem; }
 .chat-prose p + p { margin-top: 0.6rem; }
+/* Links the assistant emits. Must read as clickable at a glance, since the
+   whole point is the visitor following them out to a demo or a repo. */
+.chat-link {
+  color: #e85a37;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(232, 90, 55, 0.45);
+  word-break: break-word;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.chat-link:hover {
+  color: #f3a994;
+  text-decoration-color: #f3a994;
+}
+
 /* Tables the assistant emits. The chat panel is narrow, so the wrapper
    scrolls sideways rather than letting a wide table blow out the bubble. */
 .chat-table-wrap {
