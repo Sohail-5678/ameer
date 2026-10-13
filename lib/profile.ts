@@ -163,6 +163,7 @@ export const profile = {
         "Groq",
       ],
       liveUrl: "https://agentforge-eval.vercel.app/",
+      repoUrl: "https://github.com/Sohail-5678/AgentForge",
       emoji: "⚒️",
       accent: "amber",
     },
@@ -195,6 +196,7 @@ export const profile = {
         "Groq",
       ],
       liveUrl: "https://returnpilot-ai.vercel.app/",
+      repoUrl: "https://github.com/Sohail-5678/returnpilot",
       emoji: "📦",
       accent: "pink",
     },
@@ -226,6 +228,7 @@ export const profile = {
         "Groq",
       ],
       liveUrl: "https://datapilot-analyst.vercel.app/",
+      repoUrl: "https://github.com/Sohail-5678/Datapilot-Multi-Agent-Data-Analyst",
       emoji: "🧭",
       accent: "cyan",
     },
@@ -497,6 +500,7 @@ export function buildKnowledgeBase(): string {
   lines.push(`Phone: ${profile.phone}`);
   lines.push(`LinkedIn: ${profile.links.linkedin}`);
   lines.push(`GitHub: ${profile.links.github}`);
+  lines.push(`Portfolio: ${profile.links.portfolio}`);
   lines.push("");
 
   lines.push("## ABOUT");
@@ -519,6 +523,12 @@ export function buildKnowledgeBase(): string {
     lines.push(`Stack: ${p.stack.join(", ")}`);
     lines.push(
       `Quantitative results: ${p.stats.map((s) => `${s.value} ${s.label}`).join("; ")}`,
+    );
+    // Links are part of the corpus so the concierge can hand a recruiter the
+    // live demo or the public source instead of saying it doesn't know.
+    lines.push(`Live demo: ${p.liveUrl ?? "no public demo for this one"}`);
+    lines.push(
+      `Public source code: ${p.repoUrl ?? "not published as a standalone public repo"}`,
     );
     for (const b of p.bullets) lines.push(`- ${b}`);
     lines.push("");
