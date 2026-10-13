@@ -14,7 +14,7 @@ export function Projects() {
           eyebrow="Featured work"
           title={
             <>
-              Six things I'm{" "}
+              Nine things I'm{" "}
               <em className="italic text-[color:var(--accent)]">proud of</em>.
             </>
           }
