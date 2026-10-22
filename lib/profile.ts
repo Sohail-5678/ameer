@@ -136,32 +136,45 @@ export const profile = {
 
   projects: [
     {
+      slug: "hivemind",
+      name: "HiveMind",
+      tagline: "Multiplayer AI agents your whole team can steer live",
+      description:
+        "One AI agent session that a whole team shares in real time. Everyone watches the same answer stream in, and anyone can redirect the agent mid-sentence, pause it, hand it off, or fork it into a new room. It works across laptops and phones with no backend of its own.",
+      bullets: [
+        "Built a shared agent workspace where every teammate sees the same answer stream in, and anyone can redirect the agent mid-sentence, pause and resume it, stop it, or fork the whole session into a new room with its full history.",
+        "Wrote the agent runtime so a redirect never fights a human. The interrupted run keeps what it wrote and starts the follow-up itself, a pause or stop clicked a moment later always wins, and a message sent while the agent is busy gets answered right after instead of being dropped.",
+        "Made rooms work across devices without running a server. Every update is encrypted in the browser with AES-GCM, using a key derived from the room code, and sent through four public MQTT relays at once, one of them on port 443 so it still connects on locked-down Wi-Fi.",
+        "Kept live demos from breaking. Answers stream from a free hosted model, Groq or a local Ollama model, with first-token deadlines, handling for the free tier’s 30 second queue, and an honest fallback, all covered by a 34-check end-to-end suite that drives three clients at once.",
+      ],
+      stats: [
+        { value: "34", label: "E2E checks" },
+        { value: "4", label: "Encrypted relays" },
+        { value: "5", label: "Live controls" },
+      ],
+      stack: ["React", "Node.js", "WebSockets", "MQTT", "Web Crypto", "SQLite", "Vercel Edge", "Groq", "Ollama"],
+      liveUrl: "https://hivemind-agents.vercel.app/",
+      emoji: "🐝",
+      accent: "blue",
+    },
+    {
       slug: "agentforge",
       name: "AgentForge",
       tagline: "Evals, red teaming & prompt optimization for AI agents",
       description:
         "A quality lab for AI agents. It runs ReturnPilot and DataPilot through hundreds of test cases, attacks them with prompt-injection tricks, rewrites their prompts to make them better, and only lets a new version go live when the statistics and a human both say yes.",
       bullets: [
-        "Built an eval harness that grades what an agent actually did, not just what it said: which tools it called and in what order, what it changed (was the refund approved, did the SQL return the right rows), and whether it broke a hard safety rule, across 247 test cases.",
-        "Added an LLM-as-judge that has to earn its vote — its scores only count once it agrees with human labels at a Cohen's kappa of 0.6 or higher on 50+ items, so a noisy judge can never sink or save a release.",
-        "Wrote 87 attack seeds mapped to the OWASP Top 10 for LLM apps, including injections hidden inside order notes and database rows, plus 13 ways to disguise them — from base64 to look-alike letters to fake system headers. Every blocked attack is traced back to the guardrail that stopped it.",
-        "Built a GEPA-style prompt optimizer behind a promotion gate: a new prompt ships only if it wins on test cases it never trained on (McNemar p < 0.05), is no easier to attack, and a human approves the diff. Runs at $0 on Next.js, Neon Postgres and GitHub Actions, with 340+ automated tests.",
+        "Built an eval harness that grades what an agent actually did, not just what it said. It checks which tools were called and in what order, what changed (did the refund go through, did the SQL return the right rows), and whether a hard safety rule was broken, across 247 test cases.",
+        "Added an LLM-as-judge that has to earn its vote. Its scores only count once it agrees with human labels at a Cohen’s kappa of 0.6 or higher on 50+ items, so a noisy judge can never sink or save a release.",
+        "Wrote 87 attack seeds mapped to the OWASP Top 10 for LLM apps, including injections hidden inside order notes and database rows, plus 13 ways to disguise them, from base64 to look-alike letters to fake system headers. Every blocked attack is traced back to the guardrail that stopped it.",
+        "Built a GEPA-style prompt optimizer behind a promotion gate. A new prompt ships only if it wins on test cases it never trained on (McNemar p < 0.05), is no easier to attack, and a human approves the diff. It runs at $0 on Next.js, Neon Postgres and GitHub Actions with 340+ automated tests.",
       ],
       stats: [
         { value: "247", label: "Test cases" },
         { value: "87", label: "Attack seeds" },
         { value: "340+", label: "Automated tests" },
       ],
-      stack: [
-        "Python",
-        "Next.js",
-        "GitHub Actions",
-        "TypeScript",
-        "PostgreSQL",
-        "Docker",
-        "Gemini",
-        "Groq",
-      ],
+      stack: ["Python", "Next.js", "GitHub Actions", "TypeScript", "PostgreSQL", "Docker", "Gemini", "Groq"],
       liveUrl: "https://agentforge-eval.vercel.app/",
       repoUrl: "https://github.com/Sohail-5678/AgentForge",
       emoji: "⚒️",
@@ -175,26 +188,16 @@ export const profile = {
         "A customer support agent for an online store that handles order lookups, returns and refunds end to end. The model suggests what to do, a rules engine decides, and anything risky waits for a human to approve.",
       bullets: [
         "Built the agent as a 15-node LangGraph state machine with 9 tools, 6 of them served over MCP (Model Context Protocol), so the safety-critical path lives in code instead of being left to the model.",
-        "Added human-in-the-loop approvals with LangGraph interrupts and a Postgres checkpointer — a conversation can pause for up to 24 hours, survive a server restart, and pick up exactly where it left off once a reviewer approves, edits or rejects the refund.",
-        "Layered four guardrails: input checks, Llama Prompt Guard 2, a pure-Python policy engine with 17 rules and 100% test coverage, and an output check that verifies every dollar amount and date against real tool results. It also strips out instructions that attackers hide inside order notes.",
-        "Added hybrid RAG over 8 policy documents (pgvector plus Postgres full-text search, merged with Reciprocal Rank Fusion), long-term customer memory, and automatic Gemini-to-Groq fallback with quota tracking. All of it is hosted for $0 and tested with 30 eval scenarios and 124 backend tests.",
+        "Added human approval for refunds using LangGraph interrupts and a Postgres checkpointer. A conversation can pause for up to 24 hours, survive a server restart, and pick up exactly where it left off once a reviewer approves, edits or rejects the refund.",
+        "Layered four guardrails: input checks, Llama Prompt Guard 2, a pure Python policy engine with 17 rules and 100% test coverage, and an output check that verifies every dollar amount and date against real tool results. It also strips out instructions attackers hide inside order notes.",
+        "Added hybrid RAG over 8 policy documents (pgvector plus Postgres full-text search, merged with Reciprocal Rank Fusion), long-term customer memory, and automatic Gemini to Groq fallback with quota tracking. It’s hosted for $0 and tested with 30 eval scenarios and 124 backend tests.",
       ],
       stats: [
         { value: "15", label: "Graph nodes" },
         { value: "30/30", label: "Eval scenarios" },
         { value: "17", label: "Policy rules" },
       ],
-      stack: [
-        "LangGraph",
-        "MCP",
-        "FastAPI",
-        "Next.js",
-        "PostgreSQL",
-        "pgvector",
-        "Celery",
-        "Gemini",
-        "Groq",
-      ],
+      stack: ["LangGraph", "MCP", "FastAPI", "Next.js", "PostgreSQL", "pgvector", "Celery", "Gemini", "Groq"],
       liveUrl: "https://returnpilot-ai.vercel.app/",
       repoUrl: "https://github.com/Sohail-5678/returnpilot",
       emoji: "📦",
@@ -208,25 +211,16 @@ export const profile = {
         "Ask a business question in plain English and a team of agents plans it, writes the SQL, checks the answer and explains it with a chart. Every number in the reply is checked against the actual data before you ever see it.",
       bullets: [
         "Built a 15-node LangGraph pipeline (planner, schema linker, parallel SQL candidates, verifier, analyst, chart and narrator) that answers questions over 5 SQL databases and streams its progress live.",
-        "Made the SQL more reliable with self-consistency: parallel candidate queries vote on the answer by comparing their actual result rows, an LLM verifier breaks ties, and a failed query gets up to 2 automatic repairs.",
-        "Kept it read-only three different ways — an sqlglot guard tested on 156 fixtures, a locked-down SQLite connection, and read-only database files. Python written by the model runs only in the user's browser through Pyodide; the live server never executes model code.",
-        "Built a benchmark harness on a 150-question BIRD Mini-Dev subset with frozen train, validation and test splits and bootstrap confidence intervals, and let people upload their own CSV, Excel or SQLite files as private, read-only datasets.",
+        "Made the SQL more reliable with self-consistency. Parallel candidate queries vote by comparing their actual result rows, an LLM verifier breaks ties, and a failed query gets up to 2 automatic repairs.",
+        "Kept it read-only three separate ways: an sqlglot guard tested on 156 fixtures, a locked-down SQLite connection, and read-only database files. Any Python the model writes runs only in the user’s browser through Pyodide, so the server never executes model code.",
+        "Built a benchmark on a 150-question BIRD Mini-Dev subset with frozen train, validation and test splits and bootstrap confidence intervals, and let people upload their own CSV, Excel or SQLite files as private, read-only datasets.",
       ],
       stats: [
         { value: "5", label: "Databases" },
         { value: "156", label: "Guard tests" },
         { value: "485", label: "Backend tests" },
       ],
-      stack: [
-        "LangGraph",
-        "sqlglot",
-        "Pyodide",
-        "Python",
-        "FastAPI",
-        "Next.js",
-        "Gemini",
-        "Groq",
-      ],
+      stack: ["LangGraph", "sqlglot", "Pyodide", "Python", "FastAPI", "Next.js", "Gemini", "Groq"],
       liveUrl: "https://datapilot-analyst.vercel.app/",
       repoUrl: "https://github.com/Sohail-5678/Datapilot-Multi-Agent-Data-Analyst",
       emoji: "🧭",
@@ -237,27 +231,19 @@ export const profile = {
       name: "Ragnarok",
       tagline: "Multimodal RAG over PDFs, audio & video",
       description:
-        "Production-grade RAG pipeline that ingests PDFs, audio (Whisper), and video (OpenCV + vision-model captions), unifies them in a hybrid ChromaDB store, and answers questions with citation-enforced LLM responses across 4 providers.",
+        "Ask questions across PDFs, audio and video at the same time and get answers that cite the exact page or timestamp they came from. It indexes all three into one hybrid search store and works with four different LLM providers.",
       bullets: [
-        "Engineered a multimodal RAG pipeline processing PDFs, audio (Whisper transcription), and video (OpenCV frame extraction + vision-model descriptions), indexing 4 content modalities into a unified ChromaDB vector store with rich metadata for sub-second hybrid retrieval across 10K+ chunks.",
-        "Implemented an ensemble retrieval system combining dense cosine search with BM25 sparse ranking via Reciprocal Rank Fusion, then cross-encoder re-ranking (ms-marco-MiniLM), reducing irrelevant context passed to generation by ~60%.",
-        "Built a model-agnostic generation layer routing queries to 4 LLM providers (Groq, OpenAI, Gemini, Claude) with a citation-enforcing system prompt, deployed behind a glassmorphism Streamlit UI with production caching, async batch embedding, and configurable retrieval params.",
+        "Built a RAG pipeline that reads PDFs, audio and video. Audio is transcribed with Whisper, video frames are pulled with OpenCV and described by a vision model, and everything lands in one ChromaDB index with rich metadata, across 10K+ chunks.",
+        "Combined dense vector search with BM25 keyword search using Reciprocal Rank Fusion, then re-ranked the results with a cross-encoder (ms-marco-MiniLM), which cut the irrelevant context reaching the model by about 60%.",
+        "Routed answers to any of 4 LLM providers (Groq, OpenAI, Gemini and Claude) with a system prompt that forces a citation to the exact page or timestamp, so every claim can be checked.",
+        "Shipped it as a Streamlit app with caching, async batch embedding, and retrieval settings people can tune from the sidebar.",
       ],
       stats: [
         { value: "10K+", label: "Indexed chunks" },
         { value: "4", label: "Modalities" },
         { value: "~60%", label: "Less noise" },
       ],
-      stack: [
-        "Python",
-        "Streamlit",
-        "LangChain",
-        "ChromaDB",
-        "OpenCV",
-        "Whisper",
-        "Sentence-Transformers",
-        "BM25",
-      ],
+      stack: ["Python", "Streamlit", "LangChain", "ChromaDB", "OpenCV", "Whisper", "Sentence-Transformers", "BM25"],
       liveUrl: "https://ragnarok-ai.streamlit.app/",
       emoji: "🧿",
       accent: "violet",
@@ -267,11 +253,11 @@ export const profile = {
       name: "AutoML-ify",
       tagline: "No-code AutoML for non-technical users",
       description:
-        "End-to-end AutoML web app letting non-technical users train, tune, and evaluate ML models without writing a line of code — supporting 5+ algorithms and datasets up to 100K rows.",
+        "A no-code AutoML web app that lets non-technical people train, tune and compare machine learning models without writing any code. It supports 5+ algorithms and datasets up to 100K rows.",
       bullets: [
-        "Built an end-to-end AutoML web app supporting 5+ algorithms with automated hyperparameter tuning via GridSearchCV, enabling non-technical users to build ML models without coding.",
-        "Engineered a scalable data pipeline supporting multiple file formats with automated validation and preprocessing on datasets up to 100K rows with real-time progress tracking.",
-        "Implemented a comprehensive model-evaluation dashboard with rich visualizations, cutting model-development time for business analysts by ~80%.",
+        "Built a no-code AutoML app where people upload a dataset, pick a target and get a tuned model back, with 5+ algorithms and automatic hyperparameter search through GridSearchCV.",
+        "Wrote a data pipeline that accepts several file formats, validates and cleans them automatically, and handles datasets up to 100K rows with live progress updates.",
+        "Designed an evaluation dashboard with clear charts so analysts can compare models without touching code, which cut model development time for business analysts by about 80%.",
       ],
       stats: [
         { value: "5+", label: "Algorithms" },
@@ -288,11 +274,11 @@ export const profile = {
       name: "Dynamic SQL Assistant",
       tagline: "Text-to-SQL with 90%+ semantic accuracy",
       description:
-        "Natural-language-to-SQL engine with dynamic schema injection, prompt orchestration, and SQL validation — guaranteeing syntactic correctness across 50+ tested query patterns.",
+        "Ask a database a question in plain English and get the SQL and the answer back. It feeds the live schema into every prompt and checks each query before it runs, so it never hands back broken SQL across 50+ tested patterns.",
       bullets: [
-        "Built a Text-to-SQL engine enabling natural-language database queries with 90%+ semantic accuracy across 50+ tested patterns.",
-        "Architected prompt orchestration with dynamic schema injection and SQL validation to guarantee syntactic correctness (100% valid SQL output).",
-        "Deployed behind a Streamlit UI with sub-2-second processing for a 100K-row demo dataset.",
+        "Built a text-to-SQL engine that lets people query a database in plain English, reaching 90%+ semantic accuracy across 50+ tested query patterns.",
+        "Injected the live database schema into each prompt and validated every generated query before running it, so the output was valid SQL 100% of the time.",
+        "Ran it on Llama 3.3 through the Groq API behind a Streamlit UI, answering in under 2 seconds on a 100K-row demo dataset.",
       ],
       stats: [
         { value: "90%+", label: "Accuracy" },
@@ -309,11 +295,11 @@ export const profile = {
       name: "Diabetes Prediction",
       tagline: "Interpretable risk model on 150K+ CDC BRFSS records",
       description:
-        "Binary classification system predicting diabetes risk from 21 health indicators using ensemble methods, with SHAP-based interpretability for clinical decision-making transparency.",
+        "A diabetes risk model built on 21 health indicators, with SHAP explanations so a clinician can see why a patient was flagged instead of just getting a score.",
       bullets: [
-        "Developed a binary classifier on 150K+ patient records from the CDC BRFSS dataset using XGBoost, Random Forest, and Gradient Boosting — achieving 95.9% recall and 0.9935 ROC-AUC.",
-        "Engineered 18 predictive features via domain-driven feature engineering: interaction terms (BMI×Age), polynomial features, and composite health scores — improving recall by 12% and minimizing false negatives.",
-        "Implemented SHAP for model interpretability, identifying GenHlth, BMI, and Age as top risk factors with quantified feature-importance scores.",
+        "Trained XGBoost, Random Forest and Gradient Boosting classifiers on 150K+ patient records from the CDC BRFSS survey, reaching 95.9% recall and 0.9935 ROC-AUC.",
+        "Engineered 18 features from domain knowledge, including interaction terms like BMI times age, polynomial features and composite health scores, which raised recall by 12% and cut down on missed cases.",
+        "Used SHAP to explain the model’s decisions, showing general health, BMI and age as the strongest risk factors with measured importance scores.",
       ],
       stats: [
         { value: "95.9%", label: "Recall" },
@@ -330,24 +316,19 @@ export const profile = {
       name: "StreamTest",
       tagline: "A/B testing & causal inference on streaming data",
       description:
-        "End-to-end experimentation platform on 162K MovieLens users (25M ratings) running a 6-test hypothesis suite plus propensity-score matching and Bayesian A/B to translate the question 'Does genre diversification improve user satisfaction?' into a clear product recommendation.",
+        "An experimentation project on 162K MovieLens users and 25M ratings that answers one product question properly: does a more varied mix of genres make people rate movies higher? It combines classic hypothesis tests, propensity score matching and Bayesian A/B testing.",
       bullets: [
-        "Operationalized a product question on 162K users / 25M ratings with a 6-test suite (Welch's t, Mann-Whitney, chi-square, ANOVA, bootstrap CIs); designed sample-size simulations showing 8,200 users/group needed at 80% power on heavy-tailed data.",
-        "Estimated the causal effect of genre diversity on ratings (+0.12 stars, 95% CI [0.06, 0.18]) via propensity score matching controlling for 3 confounders.",
-        "Validated with Bayesian A/B testing (98.3% P(B>A)) and translated findings into a clear product recommendation memo.",
+        "Turned a vague product question into a real test plan on 162K users and 25M ratings, using a suite of 6 tests including Welch’s t-test, Mann-Whitney, chi-square, ANOVA and bootstrap confidence intervals.",
+        "Ran sample-size simulations showing 8,200 users per group were needed for 80% power on heavy-tailed rating data.",
+        "Estimated the causal effect with propensity score matching on 3 confounders: more genre variety raised ratings by 0.12 stars (95% CI 0.06 to 0.18).",
+        "Confirmed it with a Bayesian A/B test (98.3% probability that B beats A) and wrote it up as a clear product recommendation memo.",
       ],
       stats: [
         { value: "162K", label: "Users" },
         { value: "25M", label: "Ratings" },
         { value: "98.3%", label: "P(B>A)" },
       ],
-      stack: [
-        "Python",
-        "SciPy",
-        "Statsmodels",
-        "PSM",
-        "Bayesian A/B",
-      ],
+      stack: ["Python", "SciPy", "Statsmodels", "PSM", "Bayesian A/B"],
       emoji: "📊",
       accent: "cyan",
     },
@@ -356,11 +337,11 @@ export const profile = {
       name: "SparkFlow",
       tagline: "Scalable ETL & feature-store pipeline",
       description:
-        "PySpark + Airflow pipeline processing millions of clickstream events and transactions in under 3 minutes, with sessionization, 35 aggregated features, and orchestrated data-quality checks.",
+        "A PySpark and Airflow pipeline that turns millions of raw clickstream events and transactions into clean, model-ready features in under 3 minutes, with data quality checks built in.",
       bullets: [
-        "Processed 2M+ clickstream events and 500K+ transactions through a 4-stage PySpark pipeline in under 3 minutes.",
-        "Wrote sessionization via SQL window functions and built 35 aggregated features fed into a feature store.",
-        "Orchestrated data-quality checks (null rates, freshness, drift detection) via an Airflow DAG with SLA alerting.",
+        "Built a 4-stage PySpark pipeline that processes 2M+ clickstream events and 500K+ transactions in under 3 minutes.",
+        "Sessionized user activity with SQL window functions and built 35 aggregated features that feed a feature store.",
+        "Scheduled the whole flow as an Airflow DAG with data quality checks for null rates, freshness and drift, plus SLA alerts when something slips.",
       ],
       stats: [
         { value: "2M+", label: "Events" },
@@ -528,7 +509,7 @@ export function buildKnowledgeBase(): string {
     // live demo or the public source instead of saying it doesn't know.
     lines.push(`Live demo: ${p.liveUrl ?? "no public demo for this one"}`);
     lines.push(
-      `Public source code: ${p.repoUrl ?? "not published as a standalone public repo"}`,
+      `Public source code: ${p.repoUrl ?? "no source link is shared for this project"}`,
     );
     for (const b of p.bullets) lines.push(`- ${b}`);
     lines.push("");

@@ -53,6 +53,11 @@ const SUGGESTIONS = [
       "How does Ameer evaluate LLM systems before shipping them? Point to concrete examples of test sets, accuracy numbers, human review, and citation enforcement from his work.",
   },
   {
+    label: "How does HiveMind work?",
+    prompt:
+      "Explain HiveMind, Ameer's multiplayer AI agent platform. How does a whole team share one live agent session, how do redirect, pause and fork work while the agent is answering, and how did he make rooms work across laptops and phones without running a server?",
+  },
+  {
     label: "What does AgentForge do?",
     prompt:
       "What is AgentForge and what problem does it solve? Cover how the eval harness grades an agent's actions, the red-teaming suite, the LLM-as-judge gate, and what has to be true before a new prompt is promoted.",

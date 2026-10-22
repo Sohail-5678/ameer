@@ -72,7 +72,7 @@ function ProjectEntry({ project, index }: { project: Project; index: number }) {
         </p>
 
         <ul className="mt-6 space-y-2">
-          {project.bullets.slice(0, 2).map((b, i) => (
+          {project.bullets.map((b, i) => (
             <li
               key={i}
               className="flex gap-3 text-[15px] leading-relaxed text-[color:var(--fg-dim)]"
